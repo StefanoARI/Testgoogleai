@@ -12,13 +12,12 @@ jobs:
       - name: Checkout del codice
         uses: actions/checkout@v4
 
-      - name: Caricamento file su VHosting via FTP
+      - name: Caricamento file su VHosting via SFTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: 100100siti.it/Testgoogleai/
-          protocol: ftps
-          port: 21
-          security: loose
+          protocol: sftp
+          port: 22
