@@ -19,3 +19,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: 100100siti.it/Testgoogleai/
+          protocol: ftps
+          port: 21
+          security: explicit
