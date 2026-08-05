@@ -7,6 +7,7 @@ import Gallery from './components/Gallery';
 import Footer from './components/Footer';
 import AdminDashboard from './components/AdminDashboard';
 import ReservationForm from './components/ReservationForm';
+import { CookieBanner } from './components/CookieBanner';
 
 function HomePage() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/reserve" element={<ReservationForm />} />
       </Routes>
+      <CookieBanner />
     </div>
   );
 }

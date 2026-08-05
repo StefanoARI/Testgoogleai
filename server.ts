@@ -2,18 +2,44 @@ import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import { db } from "./src/db/index.js";
-import { reservations } from "./src/db/schema.js";
-import { desc, eq } from "drizzle-orm";
+import { reservations, cookieConsents } from "./src/db/schema.js";
+import { desc, eq, sql } from "drizzle-orm";
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
+
+  // Add trust proxy for getting accurate client IPs if behind reverse proxy
+  app.set('trust proxy', true);
 
   app.use(express.json());
 
   // API Routes
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok" });
+  });
+
+  // Record cookie consent
+  app.post("/api/cookie-consent", async (req, res) => {
+    try {
+      const { necessary, analytics, marketing } = req.body;
+      
+      const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
+      const userAgent = req.headers['user-agent'] || 'unknown';
+
+      await db.insert(cookieConsents).values({
+        ipAddress,
+        userAgent,
+        necessary: necessary ?? true,
+        analytics: analytics ?? false,
+        marketing: marketing ?? false
+      });
+
+      res.status(201).json({ message: "Consent recorded successfully" });
+    } catch (error: any) {
+      console.error("Error recording cookie consent:", error);
+      res.status(500).json({ error: "Failed to record consent" });
+    }
   });
 
   // Create a reservation
@@ -61,6 +87,24 @@ async function startServer() {
     } catch (error: any) {
       console.error("Error fetching reservations:", error);
       res.status(500).json({ error: "Failed to fetch reservations" });
+    }
+  });
+
+  // Get all cookie consents (Admin)
+  app.get("/api/admin/cookie-consents", adminAuth, async (req, res) => {
+    try {
+      const allConsents = await db.select().from(cookieConsents).orderBy(desc(cookieConsents.timestamp));
+      
+      const stats = {
+        total: allConsents.length,
+        analyticsAccepted: allConsents.filter(c => c.analytics).length,
+        marketingAccepted: allConsents.filter(c => c.marketing).length
+      };
+
+      res.json({ stats, data: allConsents });
+    } catch (error: any) {
+      console.error("Error fetching cookie consents:", error);
+      res.status(500).json({ error: "Failed to fetch cookie consents" });
     }
   });
 
