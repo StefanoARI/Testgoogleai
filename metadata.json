@@ -1,0 +1,6 @@
+{
+  "name": "Ballena Cabo",
+  "description": "A fine dining restaurant in Los Cabos, Mexico.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
