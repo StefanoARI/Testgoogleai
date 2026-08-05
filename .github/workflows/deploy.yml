@@ -3,7 +3,7 @@ name: Deploy Automatico su VHosting
 on:
   push:
     branches:
-      - main # Assicurati che il tuo ramo si chiami 'main' (se si chiama 'master', scrivi master)
+      - main # Cambia in 'master' se il tuo ramo principale si chiama così
 
 jobs:
   deploy:
@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Caricamento file su VHosting via FTP
-        uses: SamKirsch/ftp-deploy-action@v4.3.5
+        uses: SamKirland/ftp-deploy-action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
