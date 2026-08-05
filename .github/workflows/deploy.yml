@@ -1,4 +1,4 @@
-name: Deploy Automatico su VHosting
+name: Deploy Automatico su VHosting (SFTP)
 
 on:
   push:
@@ -12,12 +12,12 @@ jobs:
       - name: Checkout del codice
         uses: actions/checkout@v4
 
-      - name: Caricamento file su VHosting via SFTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Caricamento file via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: 100100siti.it/Testgoogleai/
-          protocol: sftp
           port: 22
+          local_path: './*'
+          remote_path: '/home/sitiit1/100100siti.it/Testgoogleai/'
