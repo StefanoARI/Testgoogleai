@@ -29,8 +29,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: public_html/Testgoogleai/
-          local-dir: dist/
+          server-dir: ./public_html/Testgoogleai/
+          local-dir: ./dist/
           protocol: ftps
           port: 21
           security: loose
