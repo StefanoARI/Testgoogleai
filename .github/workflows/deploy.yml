@@ -21,4 +21,4 @@ jobs:
           server-dir: 100100siti.it/Testgoogleai/
           protocol: ftps
           port: 21
-          security: explicit
+          security: loose
