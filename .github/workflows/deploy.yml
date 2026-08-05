@@ -1,0 +1,21 @@
+name: Deploy Automatico su VHosting
+
+on:
+  push:
+    branches:
+      - main # Assicurati che il tuo ramo si chiami 'main' (se si chiama 'master', scrivi master)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+
+      - name: Caricamento file su VHosting via FTP
+        uses: SamKirsch/ftp-deploy-action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: 100100siti.it/Testgoogleai/
