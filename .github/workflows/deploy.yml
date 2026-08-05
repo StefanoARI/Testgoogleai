@@ -12,6 +12,17 @@ jobs:
       - name: Checkout del codice
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
       - name: Caricamento file su VHosting via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -19,6 +30,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: public_html/Testgoogleai/
+          local-dir: dist/
           protocol: ftps
           port: 21
           security: loose
